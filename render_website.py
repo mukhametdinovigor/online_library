@@ -1,15 +1,17 @@
 import json
-import os
+import math
+import more_itertools
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from livereload import Server, shell
+from livereload import Server
 
 
 def get_books(book_json_path):
     with open(book_json_path, 'r', encoding='utf-8') as file:
         books_json = file.read()
     books = json.loads(books_json)
-    return books
+    first_col_books, second_col_books = more_itertools.chunked(books, math.ceil(len(books) / 2))
+    return first_col_books, second_col_books
 
 
 def on_reload():
@@ -18,9 +20,10 @@ def on_reload():
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template('template.html')
-    books = get_books('books.json')
+    first_col_books, second_col_books = get_books('books.json')
     rendered_page = template.render(
-        books=books
+        first_col_books=first_col_books,
+        second_col_books=second_col_books
     )
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
