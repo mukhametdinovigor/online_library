@@ -1,7 +1,8 @@
 import json
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+import os
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from livereload import Server, shell
 
 
 def get_books(book_json_path):
@@ -11,7 +12,7 @@ def get_books(book_json_path):
     return books
 
 
-if __name__ == '__main__':
+def on_reload():
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -24,5 +25,10 @@ if __name__ == '__main__':
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
-    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-    server.serve_forever()
+
+if __name__ == '__main__':
+    on_reload()
+    server = Server()
+    server.watch(f'{os.getcwd()}/*.html', on_reload)
+    server.serve(root='.')
+
