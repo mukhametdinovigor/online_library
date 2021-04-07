@@ -4,12 +4,15 @@ import more_itertools
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
+from werkzeug.urls import url_fix
 
 
 def get_books(book_json_path):
     with open(book_json_path, 'r', encoding='utf-8') as file:
         books_json = file.read()
     books = json.loads(books_json)
+    for book in books:
+        book['book_path'] = url_fix(book.get('book_path'))
     first_col_books, second_col_books = more_itertools.chunked(books, math.ceil(len(books) / 2))
     return first_col_books, second_col_books
 
