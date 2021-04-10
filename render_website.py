@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import more_itertools
 
@@ -11,11 +12,12 @@ def get_books(book_json_path, books_per_page):
     with open(book_json_path, 'r', encoding='utf-8') as file:
         books_json = file.read()
     books = json.loads(books_json)
+    pages_count = math.ceil(len(books) / books_per_page)
     for book in books:
         book['book_path'] = f"../{url_fix(book.get('book_path'))}"
         book['img_src'] = f"../{url_fix(book.get('img_src'))}"
     chunked_books = list(more_itertools.chunked(books, books_per_page))
-    return chunked_books
+    return pages_count, chunked_books
 
 
 def on_reload(folder, books_per_page, books_per_col):
@@ -25,23 +27,28 @@ def on_reload(folder, books_per_page, books_per_col):
     )
     template = env.get_template('template.html')
 
-    chunked_books = get_books('books.json', books_per_page)
+    pages_count, chunked_books = get_books('books.json', books_per_page)
     os.makedirs(folder, exist_ok=True)
-    for book_number, book in enumerate(chunked_books, 1):
+    for page_number, book in enumerate(chunked_books, 1):
         if len(book) > books_per_col:
             first_col_books, second_col_books = more_itertools.chunked(book, books_per_col)
+
             rendered_page = template.render(
+                pages_count=pages_count,
+                page_number=page_number,
                 first_col_books=first_col_books,
                 second_col_books=second_col_books
             )
-            with open(os.path.join(folder, f'index{book_number}.html'), 'w', encoding="utf8") as file:
+            with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
                 file.write(rendered_page)
         else:
             first_col_books = book
             rendered_page = template.render(
+                pages_count=pages_count,
+                page_number=page_number,
                 first_col_books=first_col_books,
             )
-            with open(os.path.join(folder, f'index{book_number}.html'), 'w', encoding="utf8") as file:
+            with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
                 file.write(rendered_page)
 
 
