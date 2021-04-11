@@ -47,6 +47,10 @@
               <div class="card-body">
                 <h5 class="card-title">{{book.get('title')}}</h5>
                 <p class="card-text">{{book.get('author')}}</p>
+                {% for genre in book.get('genres') %}
+                  <span class="badge badge-light">{{genre}}</span>
+                {% endfor %}
+                <br>
                 <a href={{book.get('book_path')}} target="_blank">Читать</a>
               </div>
             </div>
@@ -65,6 +69,11 @@
               <div class="card-body">
                 <h5 class="card-title">{{book.get('title')}}</h5>
                 <p class="card-text">{{book.get('author')}}</p>
+                {% for genre in book.get('genres') %}
+                  <span class="badge badge-light">{{genre}}</span>
+                {% endfor %}
+                <br>
+                <p><span class="badge badge-light">Светлый</span></p>
                 <a href={{book.get('book_path')}} target="_blank">Читать</a>
               </div>
             </div>

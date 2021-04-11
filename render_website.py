@@ -54,8 +54,8 @@ def on_reload(folder, books_per_page, books_per_col):
 
 if __name__ == '__main__':
     folder = 'pages'
-    books_per_page = 10
-    books_per_col = 5
+    books_per_page = 20
+    books_per_col = int(books_per_page / 2)
     on_reload(folder, books_per_page, books_per_col)
     server = Server()
     server.watch('template.html', on_reload)
