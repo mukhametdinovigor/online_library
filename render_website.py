@@ -59,5 +59,4 @@ if __name__ == '__main__':
     on_reload(folder, books_per_page, books_per_col)
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='.')
-
+    server.serve(root=folder, default_filename='index1.html')
