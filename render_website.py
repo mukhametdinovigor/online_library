@@ -20,7 +20,10 @@ def get_books(book_json_path, books_per_page):
     return pages_count, chunked_books
 
 
-def on_reload(folder, books_per_page, books_per_col):
+def on_reload():
+    folder = 'pages'
+    books_per_page = 10
+    books_per_col = int(books_per_page / 2)
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -53,10 +56,8 @@ def on_reload(folder, books_per_page, books_per_col):
 
 
 if __name__ == '__main__':
-    folder = 'pages'
-    books_per_page = 20
-    books_per_col = int(books_per_page / 2)
-    on_reload(folder, books_per_page, books_per_col)
+    on_reload()
     server = Server()
+    server.watch('render_website.py', on_reload)
     server.watch('template.html', on_reload)
-    server.serve(root=folder, default_filename='index1.html')
+    server.serve(root='.', default_filename='pages/index1.html')
