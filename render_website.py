@@ -21,7 +21,7 @@ def get_books(book_json_path, books_per_page):
 
 
 def on_reload():
-    folder = 'pages'
+    folder = 'docs'
     books_per_page = 10
     books_per_col = int(books_per_page / 2)
     env = Environment(
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     server = Server()
     server.watch('render_website.py', on_reload)
     server.watch('template.html', on_reload)
-    server.serve(root='.', default_filename='pages/index1.html')
+    server.serve(root='.', default_filename='docs/index1.html')
