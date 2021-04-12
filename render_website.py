@@ -14,8 +14,8 @@ def get_books(book_json_path, books_per_page):
     books = json.loads(books_json)
     pages_count = math.ceil(len(books) / books_per_page)
     for book in books:
-        book['book_path'] = f"../{url_fix(book.get('book_path'))}"
-        book['img_src'] = f"../{url_fix(book.get('img_src'))}"
+        book['book_path'] = url_fix(book.get('book_path'))
+        book['img_src'] = url_fix(book.get('img_src'))
     chunked_books = list(more_itertools.chunked(books, books_per_page))
     return pages_count, chunked_books
 
@@ -59,4 +59,4 @@ if __name__ == '__main__':
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='docs', default_filename='index1.html')
+    server.serve(root='docs', default_filename='index.html')
