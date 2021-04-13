@@ -3,6 +3,7 @@ import math
 import os
 import more_itertools
 
+from environs import Env
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from werkzeug.urls import url_fix
@@ -21,8 +22,10 @@ def get_books(book_json_path, books_per_page):
 
 
 def on_reload():
-    folder = 'docs'
-    books_per_page = 10
+    env = Env()
+    env.read_env()
+    folder = env('FOLDER')
+    books_per_page = int(env('BOOKS_PER_PAGE'))
     books_per_col = int(books_per_page / 2)
     env = Environment(
         loader=FileSystemLoader('.'),
@@ -59,4 +62,4 @@ if __name__ == '__main__':
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='docs', default_filename='index.html')
+    server.serve(root='docs', default_filename='index1.html')
