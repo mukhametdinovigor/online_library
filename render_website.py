@@ -21,6 +21,17 @@ def get_books(book_json_path, books_per_page):
     return pages_count, chunked_books
 
 
+def render_page(template, pages_count, page_number, first_col_books, second_col_books, folder):
+    rendered_page = template.render(
+        pages_count=pages_count,
+        page_number=page_number,
+        first_col_books=first_col_books,
+        second_col_books=second_col_books
+    )
+    with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
+        file.write(rendered_page)
+
+
 def on_reload():
     env = Env()
     env.read_env()
@@ -38,24 +49,11 @@ def on_reload():
     for page_number, book in enumerate(chunked_books, 1):
         if len(book) > books_per_col:
             first_col_books, second_col_books = more_itertools.chunked(book, books_per_col)
-
-            rendered_page = template.render(
-                pages_count=pages_count,
-                page_number=page_number,
-                first_col_books=first_col_books,
-                second_col_books=second_col_books
-            )
-            with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
-                file.write(rendered_page)
+            render_page(template, pages_count, page_number, first_col_books, second_col_books, folder)
         else:
             first_col_books = book
-            rendered_page = template.render(
-                pages_count=pages_count,
-                page_number=page_number,
-                first_col_books=first_col_books,
-            )
-            with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
-                file.write(rendered_page)
+            second_col_books = []
+            render_page(template, pages_count, page_number, first_col_books, second_col_books, folder)
 
 
 if __name__ == '__main__':
