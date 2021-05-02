@@ -12,7 +12,7 @@ Then use `pip` (or `pip3`, if there is a conflict with Python2) to install depen
 pip install -r requirements.txt
 ```
 
-Also you need create `.env` file and write a line like this into it:
+Also you need to create `.env` file and write lines like this into it:
 
 ```
 FOLDER='docs'
