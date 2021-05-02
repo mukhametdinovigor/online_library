@@ -23,6 +23,7 @@ def get_books(book_json_path, books_per_page):
 
 def render_page(template, pages_count, page_number, first_col_books, second_col_books, folder):
     rendered_page = template.render(
+        folder=folder,
         pages_count=pages_count,
         page_number=page_number,
         first_col_books=first_col_books,
@@ -35,7 +36,7 @@ def render_page(template, pages_count, page_number, first_col_books, second_col_
 def on_reload():
     env = Env()
     env.read_env()
-    folder = env('FOLDER', default='docs')
+    folder = env('FOLDER', default='pages')
     books_per_page = int(env('BOOKS_PER_PAGE', default=10))
     books_per_col = int(books_per_page / 2)
     env = Environment(
@@ -60,4 +61,4 @@ if __name__ == '__main__':
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='docs', default_filename='index1.html')
+    server.serve(root='.', default_filename='pages/index1.html')
