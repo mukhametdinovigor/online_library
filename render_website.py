@@ -1,4 +1,5 @@
 import json
+import urllib.parse
 import math
 import os
 import more_itertools
@@ -6,7 +7,7 @@ import more_itertools
 from environs import Env
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
-from werkzeug.urls import url_fix
+
 
 
 def get_books(book_json_path, books_per_page):
@@ -15,8 +16,8 @@ def get_books(book_json_path, books_per_page):
     books = json.loads(books_json)
     pages_count = math.ceil(len(books) / books_per_page)
     for book in books:
-        book['book_path'] = url_fix(book.get('book_path'))
-        book['img_src'] = url_fix(book.get('img_src'))
+        book['book_path'] = urllib.parse.quote(book.get('book_path'))
+        book['img_src'] = urllib.parse.quote(book.get('img_src'))
     chunked_books = list(more_itertools.chunked(books, books_per_page))
     return pages_count, chunked_books
 
