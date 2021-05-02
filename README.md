@@ -35,7 +35,7 @@ website.
 
 You can deploy your site on GitHub Pages. To see how it looks follow this link:
 
-[online library](https://mukhametdinovigor.github.io/online_library/pages/index.html)
+[Online library](https://mukhametdinovigor.github.io/online_library/pages)
 
 
 
