@@ -35,8 +35,8 @@ def render_page(template, pages_count, page_number, first_col_books, second_col_
 def on_reload():
     env = Env()
     env.read_env()
-    folder = env('FOLDER')
-    books_per_page = int(env('BOOKS_PER_PAGE'))
+    folder = env('FOLDER', default='docs')
+    books_per_page = int(env('BOOKS_PER_PAGE', default=10))
     books_per_col = int(books_per_page / 2)
     env = Environment(
         loader=FileSystemLoader('.'),
