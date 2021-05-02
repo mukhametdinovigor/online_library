@@ -29,8 +29,12 @@ def render_page(template, pages_count, page_number, first_col_books, second_col_
         first_col_books=first_col_books,
         second_col_books=second_col_books
     )
-    with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
-        file.write(rendered_page)
+    if page_number == 1:
+        with open(os.path.join(folder, f'index.html'), 'w', encoding="utf8") as file:
+            file.write(rendered_page)
+    else:
+        with open(os.path.join(folder, f'index{page_number}.html'), 'w', encoding="utf8") as file:
+            file.write(rendered_page)
 
 
 def on_reload():
@@ -61,4 +65,4 @@ if __name__ == '__main__':
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='.', default_filename='pages/index1.html')
+    server.serve(root='.', default_filename='pages/index.html')
