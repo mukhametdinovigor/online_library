@@ -15,11 +15,12 @@ pip install -r requirements.txt
 Also you need to create `.env` file and write lines like this into it:
 
 ```
-FOLDER='docs'
+FOLDER='pages'
 BOOKS_PER_PAGE=10
 ```
+
 You can change the folder here to customize where your html files will be placed. And you can define how many books 
-will be on the every page.
+will be on the every page. By default, your folder is 'pages' and books_per_page=10.
 
 ## How to run script
 
@@ -34,7 +35,7 @@ website.
 
 You can deploy your site on GitHub Pages. To see how it looks follow this link:
 
-[online library](https://mukhametdinovigor.github.io/online_library/index.html)
+[online library](https://mukhametdinovigor.github.io/online_library/pages/index.html)
 
 
 
