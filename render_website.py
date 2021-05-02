@@ -9,7 +9,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 
 
-
 def get_books(book_json_path, books_per_page):
     with open(book_json_path, 'r', encoding='utf-8') as file:
         books_json = file.read()
