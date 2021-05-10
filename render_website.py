@@ -52,13 +52,8 @@ def on_reload():
     pages_count, chunked_books = get_books('books.json', books_per_page)
     os.makedirs(folder, exist_ok=True)
     for page_number, books_on_page in enumerate(chunked_books, 1):
-        if len(books_on_page) > books_per_col:
-            first_col_books, second_col_books = more_itertools.chunked(books_on_page, books_per_col)
-            render_page(template, pages_count, page_number, first_col_books, second_col_books, folder)
-        else:
-            first_col_books = books_on_page
-            second_col_books = []
-            render_page(template, pages_count, page_number, first_col_books, second_col_books, folder)
+        first_col_books, second_col_books = more_itertools.chunked(books_on_page, math.ceil(len(books_on_page) / 2))
+        render_page(template, pages_count, page_number, first_col_books, second_col_books, folder)
 
 
 if __name__ == '__main__':
