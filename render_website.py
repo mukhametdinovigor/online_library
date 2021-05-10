@@ -41,7 +41,7 @@ def on_reload():
     env = Env()
     env.read_env()
     folder = env('FOLDER', default='pages')
-    books_per_page = int(env('BOOKS_PER_PAGE', default=10))
+    books_per_page = env.int('BOOKS_PER_PAGE', default=10)
     books_per_col = int(books_per_page / 2)
     env = Environment(
         loader=FileSystemLoader('.'),
